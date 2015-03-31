@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <link href="css/bootstrap-theme.min.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Hello World</title>
+    </head>
+    <body>
+        <div class="app">
+            <h1>PhoneGap</h1>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready</p>
+            </div>
+        </div>
+        <div id="PanelShowLogin">
+            <div class="alert alert-info">Log In</div>
+            <div class="container">
+                <div class="row">
+                    <input type="text" class="input input-huge" id="EmailTextBox" placeholder="email" />
+                </div>
+                <div class="row">
+                    <input type="password" class="input input-huge" id="PasswordTextBox" placeholder="password" />
+                </div>
+                <div class="row">
+                    <button id="LoginButton" >Log In</button>
+                </div>
+            </div>
+        </div>
+		<div id="PanelChooseVideo">
+            <div class="alert alert-info">Choose the Video you want to watch</div>
+			<a href='#' class='btn btn-primary'>Fire Safety</a>
+		</div>
+		<div id="PanelWatchVideo">
+            <div class="alert alert-info">Your Video</div>
+			<video width="400" id='videoControl' controls>
+				  <source src="http://www.ssrsb.ca/images/stories/videos/bluenose-academy/firesafety.mp4" 
+					type="video/mp4">
+				  Your browser does not support HTML5 video.
+				</video>
+			<div id='videoStatusDiv' class='alert'></div>
+		</div>
+		<div id="PanelQuestions">
+		<div class='form-horizontal'>
+			<div id="Q1" class='alert alert-info'>
+				
+				How often is there a fire in a school in Nova Scotia?
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-1 col-sm-10">
+				  <div class="checkbox">
+					<label>
+					  <input type="checkbox"> Remember me
+					</label>
+				  </div>
+				</div>
+			  </div>
+			<div class='form-group'>
+					<label for='cb1'>					
+						every day
+					</label>
+					<input type='checkbox' id='cb1' class='form-control' />
+			</div>
+			<div class='form-group'>
+				<div class='checkbox'>
+					<label>					
+						<input type='checkbox' />
+						every week
+					</label>
+				</div>
+			</div>			
+			<div class='form-group'>
+				<div class='checkbox'>
+					<label>					
+						<input type='checkbox'></input>
+						every term
+					</label>
+				</div>
+			</div>					
+			<div id="Q2" class='alert alert-info'>How long might it take a fire truck to reach your school if it is in a rural area?</div>
+				<ul>
+					<li>1) 4-6 minutes <checkbox class='form-control'></checkbox></li>
+					<li>2) 1-2 hours <checkbox class='form-control'></checkbox></li>
+					<li>3) 24 hours <checkbox class='form-control'></checkbox></li>
+				</ul>
+			</div>
+		</div>
+
+		
+		
+		
+		
+	<script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>-->
+
+    <script type="text/javascript" src="js/phonegap.shim.js"></script>
+
+		
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+			
+			$(function(){
+				var vid = document.getElementById('videoControl');
+				var status = document.getElementById('videoStatusDiv');
+				vid.ontimeupdate = function(info){
+					status.innerHTML = vid.currentTime;
+				};
+				vid.onended = function(info){
+					status.innerHTML = "Finished";
+				};
+				
+			});
+			
+        </script>
+    </body>
+</html>
