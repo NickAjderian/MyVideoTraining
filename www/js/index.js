@@ -46,7 +46,9 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-		$('.app').hide();
+		setTimeout(function(){
+			$('.app').hide();
+		},2000);
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
