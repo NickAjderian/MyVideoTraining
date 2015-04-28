@@ -16,6 +16,9 @@ namespace MyVideoTraining.Entities
         public string Address { get; set; }
         [MaxLength(100)]
         public string Phone { get; set; }
+        
+        //[MaxLength(100)]
+        //public string Mobile { get; set; }
 
         public virtual IList<Assignment> Assignments { get; set; }
 

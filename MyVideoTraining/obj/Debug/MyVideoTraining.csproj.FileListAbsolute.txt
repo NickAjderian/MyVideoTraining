@@ -58,3 +58,4 @@ C:\Projects\MyVideoTraining\MyVideoTraining\bin\Microsoft.Owin.Security.Twitter.
 C:\Projects\MyVideoTraining\MyVideoTraining\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Projects\MyVideoTraining\MyVideoTraining\obj\Debug\MyVideoTraining.dll
 C:\Projects\MyVideoTraining\MyVideoTraining\obj\Debug\MyVideoTraining.pdb
+C:\Projects\MyVideoTraining\MyVideoTraining\obj\Debug\MyVideoTraining.csprojResolveAssemblyReference.cache

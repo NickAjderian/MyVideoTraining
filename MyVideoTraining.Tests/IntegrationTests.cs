@@ -16,9 +16,15 @@ namespace MyVideoTraining.Tests
         [TestMethod]
         public void ContextShouldBuildAndSeedBlankDatabase()
         {
-            var ctx = new MVTDataModel(cs);
+            var config = new MyVideoTraining.Migrations.Configuration();
+            var initializer = new System.Data.Entity.MigrateDatabaseToLatestVersion<MVTDataModel, MyVideoTraining.Migrations.Configuration>(true, config);
+            System.Data.Entity.Database
+                .SetInitializer<MVTDataModel>(initializer);
 
+            var ctx = new MVTDataModel(cs);
             ctx.Database.Initialize(true);
+            MyVideoTraining.Migrations.Configuration.Seed(ctx);
+
 
             Assert.IsTrue(ctx.People.Any());
 
