@@ -5,6 +5,7 @@ namespace MyVideoTraining.Models
     using System.Data.Entity;
     using System.Linq;
     using System.Data.Entity.Migrations;
+    using System.Threading.Tasks;
 
     public class MVTDataModel : DbContext
     {
@@ -51,11 +52,31 @@ namespace MyVideoTraining.Models
         public virtual DbSet<Response> Responses { get; set; }
 
 
+        public async Task SavePersonAssignment(int personId, bool val, string typeFilter)
+        {
+            var atyp = AssignmentTypes.FirstOrDefault(x => x.AssignmentTypeName.Contains(typeFilter));
+            if (atyp != null)
+            {
+                var ass = Assignments.FirstOrDefault(x => x.PersonId == personId && x.AssignmentTypeId == atyp.AssignmentTypeId);
+                if (val)
+                {
+                    if (val && ass == null)
+                    {
+                        ass = new Assignment { AssignmentTypeId = atyp.AssignmentTypeId, PersonId = personId };
+                        Assignments.Add(ass);
+                    }
+                }
+                else
+                {
+                    if (ass != null)
+                    {
+                        Assignments.Remove(ass);
+                    }
+                }
+            }
+            await SaveChangesAsync();
+        }
+
     }
 
-    //public class MyEntity
-    //{
-    //    public int Id { get; set; }
-    //    public string Name { get; set; }
-    //}
 }

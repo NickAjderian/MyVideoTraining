@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MyVideoTraining.Api;
 using MyVideoTraining.Models;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,19 @@ namespace MyVideoTraining.Tests
 
             Assert.IsTrue(p1.Assignments.Any());
 
+        }
 
+        [TestMethod]
+        public async Task CandidatesControllerShouldReturnCandidatesWithAssignmentsList()
+        {
+            var controller = new CandidatesController();
+            var cands = await controller.GetPeople();
+
+            Assert.IsTrue(cands.Any());
+            foreach (var person in cands)
+            {
+                Assert.IsTrue(person.Assignments.Any());
+            }
 
         }
 

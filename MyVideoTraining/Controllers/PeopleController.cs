@@ -60,7 +60,7 @@ namespace MyVideoTraining.Controllers
                 if (Request.Form.GetValues("FireTrainingCheckBox") != null && Request.Form.GetValues("FireTrainingCheckBox").Any())
                 {
                     var val = Request.Form.GetValues("FireTrainingCheckBox")[0] == "on";
-                    SavePersonAssignment(personId, val, "fire");
+                    await db.SavePersonAssignment(personId, val, "fire");
                     await db.SaveChangesAsync();
                 }
                 return RedirectToAction("Index");
@@ -103,7 +103,7 @@ namespace MyVideoTraining.Controllers
                     if (Request.Form.GetValues("FireTrainingCheckBox") != null && Request.Form.GetValues("FireTrainingCheckBox").Any())
                     {
                         var val = Request.Form.GetValues("FireTrainingCheckBox")[0] == "on";
-                        SavePersonAssignment(personId, val, "fire");
+                        await db.SavePersonAssignment(personId, val, "fire");
                         await db.SaveChangesAsync();
                     }
                     //db.Entry(person).State = EntityState.Modified;
@@ -111,30 +111,6 @@ namespace MyVideoTraining.Controllers
                 }
             }
             return View(person);
-        }
-
-        private void SavePersonAssignment(int personId, bool val, string typeFilter)
-        {
-            var atyp = db.AssignmentTypes.FirstOrDefault(x => x.AssignmentTypeName.Contains(typeFilter));
-            if (atyp != null)
-            {
-                var ass = db.Assignments.FirstOrDefault(x => x.PersonId == personId && x.AssignmentTypeId == atyp.AssignmentTypeId);
-                if (val)
-                {
-                    if (val && ass == null)
-                    {
-                        ass = new Assignment { AssignmentTypeId = atyp.AssignmentTypeId, PersonId = personId };
-                        db.Assignments.Add(ass);
-                    }
-                }
-                else
-                {
-                    if (ass != null)
-                    {
-                        db.Assignments.Remove(ass);
-                    }
-                }
-            }
         }
 
         // GET: People/Delete/5

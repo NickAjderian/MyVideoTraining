@@ -183,6 +183,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\AssignmentController.cs" />
+    <Compile Include="Api\CandidatesController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -203,9 +204,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AllowCrossSiteJsonAttribute.cs" />
     <Compile Include="Migrations\201504281041539_01 Add Mobile.cs" />
     <Compile Include="Migrations\201504281041539_01 Add Mobile.Designer.cs">
       <DependentUpon>201504281041539_01 Add Mobile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504301201511_Patient Demographics.cs" />
+    <Compile Include="Migrations\201504301201511_Patient Demographics.Designer.cs">
+      <DependentUpon>201504301201511_Patient Demographics.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -310,6 +316,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201504281041539_01 Add Mobile.resx">
       <DependentUpon>201504281041539_01 Add Mobile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504301201511_Patient Demographics.resx">
+      <DependentUpon>201504301201511_Patient Demographics.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

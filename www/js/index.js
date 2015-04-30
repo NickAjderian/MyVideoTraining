@@ -62,85 +62,63 @@ var app = {
 
         console.log('Received Event: ' + id);
     }
-
-
-
-
-
 };
 
 app.initialize();
 
-function reset() {
-    $("#PanelShowLogin").hide();
-    $("#PanelChoosePatient").hide();
-    $("#PanelChooseVideo").hide();
-    $("#PanelWatchVideo").hide();
-    $("#PanelSignature").hide();
-    $("#PanelHealth").hide();
-    $("#PanelThanks").hide();
-}
+angular.module('app', []);
+angular.module('app').controller('mainCtrl', function ($scope, $http) {
+    $scope.status = 'ok so far';
+    $scope.state = 'capturelogin';
+    $scope.videoHasEnded = true;
 
-$(function () {
-    var vid = document.getElementById('videoControl');
-    var status = document.getElementById('videoStatusDiv');
-    vid.ontimeupdate = function (info) {
-        status.innerHTML = vid.currentTime;
+    $scope.login = function () {
+        //TODO: actually check credentials
+        $scope.state = 'choosepatient';
+        $scope.getPatients();
     };
-    vid.onended = function (info) {
-        status.innerHTML = "Finished";
+    $scope.getPatients = function () {
+        $http.get("http://localhost:58037/api/candidates").then(function (data) {
+            $scope.cands = JSON.parse(data.data).Result;
+            //cands = [{ClientID, PersonName,Assignments:[{AssignmentID, AssignmentType { AssignmenttypeName}}]}]
+        });
     };
-
-    
-    $("#LoginButton").click(function () {
-        $("#PanelShowLogin").hide();
-        $("#PanelChoosePatient").show();
-    });
-
-    $("#SelectPatientButton").click(function () {
-        $("#PanelChoosePatient").hide();
-        $("#PanelChooseVideo").show();
-    });
-
-    $("#FireSafetyButton").click(function () {
-        $("#PanelChooseVideo").hide();
-        $("#PanelWatchVideo").show();
-        $("#VideoEndedButtons").hide();
-    });
-
-    document.getElementById("videoControl").onended = function () {
-        $("#VideoEndedButtons").show();
+    $scope.onSelectPerson = function(person){
+        $scope.selectedPerson = person;
+    }
+    $scope.onChoosePatient = function () {
+        $scope.state = 'chooseassignment';
+        $scope.videoHasEnded = false;
     };
+    $scope.vid = document.getElementById('videoControl');
+    $scope.onChooseAssignment = function (assignment) {
+        $scope.selectedAssignment = assignment;
+        if (assignment.AssignmentType.Medias.length == 1) {
+            $scope.onChooseMedia(assignment.AssignmentType.Medias[0]);
+        }
+    };
+    $scope.onChooseMedia = function (media) {
+        $scope.state = 'watchvideo'
+        //TODO: put assignment.Medias[0].Url into video player
+        $scope.vid.src = media.Url;
+        $scope.vid.load();
+    }
 
-    $("#AgreeButton").click(function () {
-        $("#PanelWatchVideo").hide();
-        $("#PanelSignature").show();
-    });
-    $("#RepeatButton").click(function () {
-        $("#VideoEndedButtons").hide();
-        document.getElementById("videoControl").play();
-    });
-
-    $("#SignatureCompleteButton").click(function () {
-        $("#PanelSignature").hide();
-        $("#PanelHealth").show();
-    });
-
-    $("#BackToSignatureButton").click(function () {
-        $("#PanelSignature").show();
-        $("#PanelHealth").hide();
-    });
-
-    $("#HealthCompleteButton").click(function () {
-        $("#PanelThanks").show();
-        $("#PanelHealth").hide();
-    });
-
-    $("#ThanksMessagePanel").click(function () {
-        reset();
-        $("#PanelShowLogin").show();
-    });
-
-    reset();
+    $scope.vid.onended = function () {
+        $scope.videoHasEnded = true;
+        $scope.$apply();
+    };
+    $scope.vid.ontimeupdate = function (info) {
+        status.innerHTML = $scope.vid.currentTime;
+    };
+    $scope.onRepeat = function () {
+        //$("#VideoEndedButtons").hide();
+        $scope.videoHasEnded = false;
+        $scope.vid.play();
+    };
+    $scope.onReject = function () {
+        //TODO: log reject response
+        $scope.state = 'capturethanks';
+    }
 
 });

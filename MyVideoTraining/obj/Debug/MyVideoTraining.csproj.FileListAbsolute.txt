@@ -122,3 +122,4 @@ F:\MyVideoTraining\MyVideoTraining\bin\System.Web.WebPages.Razor.xml
 F:\MyVideoTraining\MyVideoTraining\bin\System.Web.Optimization.xml
 F:\MyVideoTraining\MyVideoTraining\obj\Debug\MyVideoTraining.Migrations._01AddMobile.resources
 F:\MyVideoTraining\MyVideoTraining\obj\Debug\MyVideoTraining.csproj.GenerateResource.Cache
+F:\MyVideoTraining\MyVideoTraining\obj\Debug\MyVideoTraining.Migrations.PatientDemographics.resources
