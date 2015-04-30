@@ -8,6 +8,18 @@ namespace MyVideoTraining.Models
 
     public class MVTDataModel : DbContext
     {
+
+        private static string GetConnectionString()
+        {
+
+            if (System.Environment.MachineName == "DPT001647")
+            {
+                return "data source=.\\SQL03;initial catalog=MyVideoTraining;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework";
+            }
+            return System.Configuration.ConfigurationManager.ConnectionStrings["MVTDataModel"].ConnectionString;
+        }
+
+
         // Your context has been configured to use a 'MVTDataModel' connection string from your application's 
         // configuration file (App.config or Web.config). By default, this connection string targets the 
         // 'MyVideoTraining.Models.MVTDataModel' database on your LocalDb instance. 
@@ -15,16 +27,16 @@ namespace MyVideoTraining.Models
         // If you wish to target a different database and/or database provider, modify the 'MVTDataModel' 
         // connection string in the application configuration file.
         public MVTDataModel()
-            : base("name=MVTDataModel")
+            : base(GetConnectionString()) //was "name=MVTDataModel"
         {
-            //this.Configuration.LazyLoadingEnabled = true;
+            this.Configuration.LazyLoadingEnabled = true;
             //Seed(this);
         }
 
         public MVTDataModel(string connectionString)
             : base(connectionString)
         {
-            //this.Configuration.LazyLoadingEnabled = true;
+            this.Configuration.LazyLoadingEnabled = true;
             //Seed(this); //NOT GOOD gets called on every instantiation
         }
 

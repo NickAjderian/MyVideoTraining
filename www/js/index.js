@@ -47,7 +47,8 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
 		setTimeout(function(){
-			$('.app').hide();
+		    $('.app').hide();
+		    $("#PanelShowLogin").show();
 		},2000);
     },
     // Update DOM on a Received Event
@@ -61,4 +62,85 @@ var app = {
 
         console.log('Received Event: ' + id);
     }
+
+
+
+
+
 };
+
+app.initialize();
+
+function reset() {
+    $("#PanelShowLogin").hide();
+    $("#PanelChoosePatient").hide();
+    $("#PanelChooseVideo").hide();
+    $("#PanelWatchVideo").hide();
+    $("#PanelSignature").hide();
+    $("#PanelHealth").hide();
+    $("#PanelThanks").hide();
+}
+
+$(function () {
+    var vid = document.getElementById('videoControl');
+    var status = document.getElementById('videoStatusDiv');
+    vid.ontimeupdate = function (info) {
+        status.innerHTML = vid.currentTime;
+    };
+    vid.onended = function (info) {
+        status.innerHTML = "Finished";
+    };
+
+    
+    $("#LoginButton").click(function () {
+        $("#PanelShowLogin").hide();
+        $("#PanelChoosePatient").show();
+    });
+
+    $("#SelectPatientButton").click(function () {
+        $("#PanelChoosePatient").hide();
+        $("#PanelChooseVideo").show();
+    });
+
+    $("#FireSafetyButton").click(function () {
+        $("#PanelChooseVideo").hide();
+        $("#PanelWatchVideo").show();
+        $("#VideoEndedButtons").hide();
+    });
+
+    document.getElementById("videoControl").onended = function () {
+        $("#VideoEndedButtons").show();
+    };
+
+    $("#AgreeButton").click(function () {
+        $("#PanelWatchVideo").hide();
+        $("#PanelSignature").show();
+    });
+    $("#RepeatButton").click(function () {
+        $("#VideoEndedButtons").hide();
+        document.getElementById("videoControl").play();
+    });
+
+    $("#SignatureCompleteButton").click(function () {
+        $("#PanelSignature").hide();
+        $("#PanelHealth").show();
+    });
+
+    $("#BackToSignatureButton").click(function () {
+        $("#PanelSignature").show();
+        $("#PanelHealth").hide();
+    });
+
+    $("#HealthCompleteButton").click(function () {
+        $("#PanelThanks").show();
+        $("#PanelHealth").hide();
+    });
+
+    $("#ThanksMessagePanel").click(function () {
+        reset();
+        $("#PanelShowLogin").show();
+    });
+
+    reset();
+
+});

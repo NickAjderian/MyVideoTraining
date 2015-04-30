@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <!--
     Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
 
@@ -53,9 +53,35 @@
                 </div>
             </div>
         </div>
+        <div id="PanelChoosePatient" class="container">
+            <div class="alert alert-warning">THIS SCREEN MUST NOT BE SHOWN TO THE PATIENT</div>
+
+
+            <div class="btn-group-vertical col-md-6" role="group">
+                <div class="btn btn-primary">John Rowland</div>
+                <div class="btn btn-primary">Fred Flintstone</div>
+                <div class="btn btn-primary">Barney Rubble</div>
+                <div class="btn btn-primary">Wilma Flintstone</div>
+            </div>
+
+
+            <div class="col-md-6">
+                <label class="col-md-6">Client ID</label>
+                <div class="col-md-6">123456</div>
+                <label class="col-md-6">NHS Number</label>
+                <div class="col-md-6">1234567898</div>
+                <label class="col-md-6">Phone</label>
+                <div class="col-md-6">1234-567-9898</div>
+                <label class="col-md-6">Care Coord</label>
+                <div class="col-md-6">Mr Rockridge</div>
+            </div>
+
+            <div id="SelectPatientButton" class="btn btn-primary col-md-3 col-md-offset-9">Select Client</div>
+
+        </div>
 		<div id="PanelChooseVideo">
             <div class="alert alert-info">Choose the Video you want to watch</div>
-			<a href='#' class='btn btn-primary'>Fire Safety</a>
+			<a href='#' class='btn btn-primary' id="FireSafetyButton">Fire Safety</a>
 		</div>
 		<div id="PanelWatchVideo">
             <div class="alert alert-info">Your Video</div>
@@ -65,80 +91,62 @@
 				  Your browser does not support HTML5 video.
 				</video>
 			<div id='videoStatusDiv' class='alert'></div>
+            <div id="VideoEndedButtons" class="container">
+                <div id="AgreeButton" class="btn btn-success col-md-3">Yes, I agree</div>
+                <div id="RepeatButton" class="btn btn-primary col-md-3">Play Again</div>
+                <div id="NoButton" class="btn btn-danger col-md-3">No, I disagree</div>
+            </div>
 		</div>
-		<div id="PanelQuestions">
-		<div class='form-horizontal'>
-			<div id="Q1" class='alert alert-info'>
-				
-				How often is there a fire in a school in Nova Scotia?
-			</div>
-			<div class="form-group">
-				<div class="col-sm-offset-1 col-sm-10">
-				  <div class="checkbox">
-					<label>
-					  <input type="checkbox"> Remember me
-					</label>
-				  </div>
-				</div>
-			  </div>
-			<div class='form-group'>
-					<label for='cb1'>					
-						every day
-					</label>
-					<input type='checkbox' id='cb1' class='form-control' />
-			</div>
-			<div class='form-group'>
-				<div class='checkbox'>
-					<label>					
-						<input type='checkbox' />
-						every week
-					</label>
-				</div>
-			</div>			
-			<div class='form-group'>
-				<div class='checkbox'>
-					<label>					
-						<input type='checkbox'></input>
-						every term
-					</label>
-				</div>
-			</div>					
-			<div id="Q2" class='alert alert-info'>How long might it take a fire truck to reach your school if it is in a rural area?</div>
-				<ul>
-					<li>1) 4-6 minutes <checkbox class='form-control'></checkbox></li>
-					<li>2) 1-2 hours <checkbox class='form-control'></checkbox></li>
-					<li>3) 24 hours <checkbox class='form-control'></checkbox></li>
-				</ul>
-			</div>
+        <div id="PanelSignature">
+            <label>Sign here</label>
+            <div class="SignatureBox"></div>
+            <div class="container">
+                <btn id="BackToVideoButton" class="btn btn-primary">Go Back</btn>
+                <btn id="SignatureCompleteButton" class="btn btn-primary">Done</btn>
+            </div>
+        </div>
+		<div id="PanelHealth">
+            <div class="alert alert-primary">
+                We would like to know how good or bad your health is TODAY.<br />
+                The scale is numbered from 0 to 100<br />
+                100 is the BEST health you can imagine<br />
+                0 is the WORST health you can imagine<br />
+                Please press on the scale to show how your health is today
+            </div>
+
+            <div class="col-md-12">
+                <div class="Scale100Control">
+                    0...100
+                </div>
+                <div id="PanelHealthButtons" class="container">
+                    <btn id="BackToSignatureButton" class="btn btn-primary">Go Back</btn>
+                    <btn id="HealthCompleteButton" class="btn btn-primary">Done</btn>
+                </div>
+
+            </div>
+
 		</div>
 
-		
-		
-		
-		
-	<script src="js/jquery.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>-->
+        <div id="PanelThanks">
+            <div class="btn btn-success" id="ThanksMessagePanel">
+                <h1>Thank you for watching this video. Please return the tablet to the Care Worker</h1>
+            </div>
+         </div>
 
-    <script type="text/javascript" src="js/phonegap.shim.js"></script>
 
-		
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-			
-			$(function(){
-				var vid = document.getElementById('videoControl');
-				var status = document.getElementById('videoStatusDiv');
-				vid.ontimeupdate = function(info){
-					status.innerHTML = vid.currentTime;
-				};
-				vid.onended = function(info){
-					status.innerHTML = "Finished";
-				};
-				
-			});
-			
-        </script>
-    </body>
+
+
+            <script src="js/jquery.js"></script>
+            <script src="js/bootstrap.min.js"></script>
+            <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>-->
+
+            <script type="text/javascript" src="js/phonegap.shim.js"></script>
+
+
+            <script type="text/javascript" src="js/index.js"></script>
+            <script type="text/javascript">
+
+
+            </script>
+</body>
 </html>

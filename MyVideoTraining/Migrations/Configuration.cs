@@ -11,9 +11,10 @@ namespace MyVideoTraining.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            
         }
 
-        public static void Seed(MyVideoTraining.Models.MVTDataModel context)
+        protected override void Seed(MyVideoTraining.Models.MVTDataModel context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -89,14 +90,19 @@ namespace MyVideoTraining.Migrations
                 .AssignmentTypes
                 .OrderBy(x => x.AssignmentTypeId).FirstOrDefault();
 
+            var someAssignmentsAdded = false;
             foreach (var p in context.People
                 .Include(p => p.Assignments).Take(2)) //include assignments so you get to check for Any()
             {
                 if (!p.Assignments.Any())
                 {
                     p.Assignments.Add(new Assignment { AssignmentType = at2 });
-                    context.SaveChanges();
+                    someAssignmentsAdded = true;
                 }
+            }
+            if (someAssignmentsAdded)
+            {
+                context.SaveChanges();
             }
 
         }

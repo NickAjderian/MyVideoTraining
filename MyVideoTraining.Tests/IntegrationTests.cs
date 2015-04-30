@@ -11,7 +11,15 @@ namespace MyVideoTraining.Tests
     [TestClass]
     public class IntegrationTests
     {
-        string cs = "data source=vetinarius;initial catalog=MyVideoTrainingTests;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework";
+        private string GetConnectionString()
+        {
+
+            if (System.Environment.MachineName == "DPT001647")
+            {
+                return "data source=.\\SQL03;initial catalog=MyVideoTrainingTests;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework";
+            }
+            return "data source=.\\;initial catalog=MyVideoTrainingTests;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework";
+        }
 
         [TestMethod]
         public void ContextShouldBuildAndSeedBlankDatabase()
@@ -21,9 +29,9 @@ namespace MyVideoTraining.Tests
             System.Data.Entity.Database
                 .SetInitializer<MVTDataModel>(initializer);
 
-            var ctx = new MVTDataModel(cs);
-            ctx.Database.Initialize(true);
-            MyVideoTraining.Migrations.Configuration.Seed(ctx);
+            var ctx = new MVTDataModel(GetConnectionString());
+            //ctx.Database.Initialize(true);
+            //MyVideoTraining.Migrations.Configuration.Seed(ctx);
 
 
             Assert.IsTrue(ctx.People.Any());
