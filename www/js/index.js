@@ -47,7 +47,8 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
 		setTimeout(function(){
-			$('.app').hide();
+		    $('.app').hide();
+		    $("#PanelShowLogin").show();
 		},2000);
     },
     // Update DOM on a Received Event
@@ -62,3 +63,62 @@ var app = {
         console.log('Received Event: ' + id);
     }
 };
+
+app.initialize();
+
+angular.module('app', []);
+angular.module('app').controller('mainCtrl', function ($scope, $http) {
+    $scope.status = 'ok so far';
+    $scope.state = 'capturelogin';
+    $scope.videoHasEnded = true;
+
+    $scope.login = function () {
+        //TODO: actually check credentials
+        $scope.state = 'choosepatient';
+        $scope.getPatients();
+    };
+    $scope.getPatients = function () {
+        $http.get("http://localhost:58037/api/candidates").then(function (data) {
+            $scope.cands = JSON.parse(data.data).Result;
+            //cands = [{ClientID, PersonName,Assignments:[{AssignmentID, AssignmentType { AssignmenttypeName}}]}]
+        });
+    };
+    $scope.onSelectPerson = function(person){
+        $scope.selectedPerson = person;
+    }
+    $scope.onChoosePatient = function () {
+        $scope.state = 'chooseassignment';
+        $scope.videoHasEnded = false;
+    };
+    $scope.vid = document.getElementById('videoControl');
+    $scope.onChooseAssignment = function (assignment) {
+        $scope.selectedAssignment = assignment;
+        if (assignment.AssignmentType.Medias.length == 1) {
+            $scope.onChooseMedia(assignment.AssignmentType.Medias[0]);
+        }
+    };
+    $scope.onChooseMedia = function (media) {
+        $scope.state = 'watchvideo'
+        //TODO: put assignment.Medias[0].Url into video player
+        $scope.vid.src = media.Url;
+        $scope.vid.load();
+    }
+
+    $scope.vid.onended = function () {
+        $scope.videoHasEnded = true;
+        $scope.$apply();
+    };
+    $scope.vid.ontimeupdate = function (info) {
+        status.innerHTML = $scope.vid.currentTime;
+    };
+    $scope.onRepeat = function () {
+        //$("#VideoEndedButtons").hide();
+        $scope.videoHasEnded = false;
+        $scope.vid.play();
+    };
+    $scope.onReject = function () {
+        //TODO: log reject response
+        $scope.state = 'capturethanks';
+    }
+
+});

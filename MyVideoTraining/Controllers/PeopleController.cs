@@ -19,6 +19,8 @@ namespace MyVideoTraining.Controllers
         // GET: People
         public async Task<ActionResult> Index()
         {
+            //var ppl = db.People.ToList();
+
             return View(await db.People.ToListAsync());
         }
 
@@ -54,6 +56,13 @@ namespace MyVideoTraining.Controllers
             {
                 db.People.Add(person);
                 await db.SaveChangesAsync();
+                var personId = person.PersonId;
+                if (Request.Form.GetValues("FireTrainingCheckBox") != null && Request.Form.GetValues("FireTrainingCheckBox").Any())
+                {
+                    var val = Request.Form.GetValues("FireTrainingCheckBox")[0] == "on";
+                    await db.SavePersonAssignment(personId, val, "fire");
+                    await db.SaveChangesAsync();
+                }
                 return RedirectToAction("Index");
             }
 
@@ -89,10 +98,17 @@ namespace MyVideoTraining.Controllers
                 if (TryUpdateModel<Person>(personToUpdate))
                 {
                     await db.SaveChangesAsync();
+
+                    var personId = person.PersonId;
+                    if (Request.Form.GetValues("FireTrainingCheckBox") != null && Request.Form.GetValues("FireTrainingCheckBox").Any())
+                    {
+                        var val = Request.Form.GetValues("FireTrainingCheckBox")[0] == "on";
+                        await db.SavePersonAssignment(personId, val, "fire");
+                        await db.SaveChangesAsync();
+                    }
+                    //db.Entry(person).State = EntityState.Modified;
                     return RedirectToAction("Index");
                 }
-                //db.Entry(person).State = EntityState.Modified;
-                //await db.SaveChangesAsync();
             }
             return View(person);
         }
