@@ -40,9 +40,12 @@ C:\Projects\MyVideoTraining\platforms\android\assets\www\css\bootstrap.min.css \
 C:\Projects\MyVideoTraining\platforms\android\assets\www\css\index.css \
 C:\Projects\MyVideoTraining\platforms\android\assets\www\img\logo.png \
 C:\Projects\MyVideoTraining\platforms\android\assets\www\js\bootstrap.min.js \
+C:\Projects\MyVideoTraining\platforms\android\assets\www\js\Constants.js \
 C:\Projects\MyVideoTraining\platforms\android\assets\www\js\index.js \
 C:\Projects\MyVideoTraining\platforms\android\assets\www\js\jquery.js \
 C:\Projects\MyVideoTraining\platforms\android\assets\www\js\phonegap.shim.js \
+C:\Projects\MyVideoTraining\platforms\android\assets\www\js\signature_pad.js \
+C:\Projects\MyVideoTraining\platforms\android\assets\www\js\xcopyExclude.txt \
 C:\Projects\MyVideoTraining\platforms\android\assets\www\res\icon \
 C:\Projects\MyVideoTraining\platforms\android\assets\www\res\screen \
 C:\Projects\MyVideoTraining\platforms\android\assets\www\res\icon\android \

@@ -63,18 +63,30 @@
 
 
             <div class="col-md-6">
-                <label class="col-md-6">Name</label>
-                <div class="col-md-6">{{selectedPerson.PersonName}}</div>
-                <label class="col-md-6">Client ID</label>
-                <div class="col-md-6">{{selectedPerson.ClientID}}</div>
-                <label class="col-md-6">NHS Number</label>
-                <div class="col-md-6">{{selectedPerson.NHSNumber}}</div>
-                <label class="col-md-6">Phone</label>
-                <div class="col-md-6">{{selectedPerson.Phone}}</div>
-                <label class="col-md-6">Mobile</label>
-                <div class="col-md-6">{{selectedPerson.Mobile}}</div>
-                <label class="col-md-6">Next of Kin</label>
-                <div class="col-md-6">{{selectedPerson.NokName}}</div>
+				<div class="row">
+				   <label class="col-md-4">Name</label>
+					<div class="col-md-6">{{selectedPerson.PersonName}}</div>
+				</div>
+				<div class="row">
+					 <label class="col-md-6">Client ID</label>
+					<div class="col-md-6">{{selectedPerson.ClientID}}</div>
+				</div>
+				<div class="row">
+					<label class="col-md-6">NHS Number</label>
+					<div class="col-md-6">{{selectedPerson.NHSNumber}}</div>
+				</div>
+				<div class="row">
+					<label class="col-md-6">Phone</label>
+					<div class="col-md-6">{{selectedPerson.Phone}}</div>
+				</div>
+				<div class="row">
+					<label class="col-md-6">Mobile</label>
+					<div class="col-md-6">{{selectedPerson.Mobile}}</div>
+				</div>
+				<div class="row">
+					<label class="col-md-6">Next of Kin</label>
+					<div class="col-md-6">{{selectedPerson.NokName}}</div>
+				</div>
             </div>
 
 
@@ -102,20 +114,34 @@
                 Your browser does not support HTML5 video.
             </video>
             <div id='videoStatusDiv' class='alert'></div>
-            <div id="VideoEndedButtons" class="container" ng-show="videoHasEnded">
-                <div id="AgreeButton" class="btn btn-success col-md-3" ng-click="state='capturesignature'">Yes, I agree</div>
+            <div id="VideoEndedButtons" class="container" ng-show="true">
+                <div id="AgreeButton" class="btn btn-success col-md-3" ng-click="onAgree()">Yes, I agree</div>
                 <div id="RepeatButton" class="btn btn-primary col-md-3" ng-click="onRepeat()">Play Again</div>
                 <div id="NoButton" class="btn btn-danger col-md-3">No, I disagree</div>
             </div>
 
         </div>
         <div ng-show="state==='capturesignature'">
-            <label>Sign here</label>
-            <div class="SignatureBox"></div>
-            <div class="container">
-                <btn id="BackToVideoButton" class="btn btn-primary">Go Back</btn>
-                <btn id="SignatureCompleteButton" class="btn btn-primary" ng-click="state='capturehealth'">Done</btn>
+            <div id="signature-pad" class="m-signature-pad">
+                <div class="m-signature-pad--body">
+                    <canvas></canvas>
+                </div>
+                <div class="m-signature-pad--footer">
+                    <div class="description">Sign above</div>
+                    <button class="button clear btn btn-primary" ng-click="onAgree()">Back</button>
+                    <button class="button save btn btn-primary" ng-click="onSigned()">Done</button>
+                </div>
             </div>
+
+            <!--<label>Sign here</label>-->
+            <!--<div class="SignatureBox">-->
+                <!--<canvas></canvas>-->
+            <!--</div>-->
+
+			<!--<div id="SignatureButtons">   -->
+				<!--<btn id="BackToVideoButton" class="btn btn-primary">Go Back</btn>-->
+				<!--<btn id="SignatureCompleteButton" class="btn btn-primary" ng-click="onSigned()">Done</btn>-->
+			<!--</div>-->
         </div>
 		<div ng-show="state==='capturehealth'">
             <div class="alert alert-primary">
@@ -141,7 +167,10 @@
 
         <div ng-show="state==='capturethanks'">
             <div class="btn btn-success" id="ThanksMessagePanel" ng-click="state='capturelogin'">
-                <h1>Thank you for watching this video. Please return the tablet to the Care Worker</h1>
+                <h1>Thank you for watching this video</h1>
+            </div>
+            <div class="alert alert-primary">
+                Please return the tablet to the Care Worker
             </div>
         </div>
 
@@ -154,7 +183,8 @@
             <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
 
             <script type="text/javascript" src="js/phonegap.shim.js"></script>
-
+            <script type="text/javascript" src="js/signature_pad.js"></script>
+            <script type="text/javascript" src="js/Constants.js"></script>
 
             <script type="text/javascript" src="js/index.js"></script>
             <script type="text/javascript">
