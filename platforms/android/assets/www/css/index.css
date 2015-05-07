@@ -78,6 +78,20 @@ h1 {
     text-align:center;
 }
 
+input{
+    font-size:32px;
+    margin:5px;
+}
+
+.btn{
+}
+
+.btn-huge{
+    font-size:24px;
+    margin:5px;
+    
+}
+
 .event {
     border-radius:4px;
     -webkit-border-radius:4px;
@@ -205,6 +219,19 @@ canvas {
 .m-signature-pad--footer
 .button.save {
     right: 0;
+}
+
+#HealthSlider{
+    width:100%;
+    height:75px;
+    background: lightblue;
+}
+#HealthIndicator{
+    position:absolute; 
+    font-size:72px;
+}
+#HealthValue{
+    position:absolute;
 }
 
 @media screen and (max-width: 1024px) {

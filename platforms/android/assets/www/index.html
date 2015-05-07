@@ -25,7 +25,8 @@
         <meta name="format-detection" content="telephone=no" />
         <meta name="msapplication-tap-highlight" content="no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <!--http://stackoverflow.com/questions/15194940/phonegap-application-text-and-layout-too-small/15545381#15545381-->
+        <meta name="viewport" content="user-scalable=0, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=medium-dpi" />
         <link href="css/bootstrap.min.css" rel="stylesheet" />
         <link href="css/bootstrap-theme.min.css" rel="stylesheet" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
@@ -40,71 +41,74 @@
             </div>
         </div>
         <div ng-show="state==='capturelogin'">
-            <div class="alert alert-info">Log In</div>
             <div class="container">
-                <div class="row">
-                    <input type="text" class="input input-huge" id="EmailTextBox" placeholder="email" />
-                </div>
-                <div class="row">
-                    <input type="password" class="input input-huge" id="PasswordTextBox" placeholder="password" />
-                </div>
-                <div class="row">
-                    <button id="LoginButton" ng-click="login()">Log In</button>
-                </div>
+                    <input type="text" id="EmailTextBox" placeholder="email" />
+                    <input type="password" class="input" id="PasswordTextBox" placeholder="password" />
+            </div>
+			<div class="container">
+                    <button id="LoginButton" class="btn btn-primary btn-huge" ng-click="login()">Log In</button>
+			</div>
+            <div class="container">
+            	<button class="btn btn-primary btn-huge" ng-click="onClearLocalData()">Clear Local Data</button>
             </div>
         </div>
         <div class="container" ng-show="state==='choosepatient'">
-            <div class="alert alert-warning">THIS SCREEN MUST NOT BE SHOWN TO THE PATIENT</div>
+            <div class="alert alert-danger">THIS SCREEN MUST NOT BE SHOWN TO THE PATIENT</div>
 
-
-            <div class="btn-group-vertical col-md-6" role="group" id="PatientList">
-                <div class="btn btn-primary" ng-repeat="person in cands" ng-click="onSelectPerson(person)">{{person.PersonName}}</div>
+            <div class="btn-group-vertical col-md-6 col-xs-6" role="group" id="PatientList">
+                <div class="alert alert-info" ng-repeat="person in cands" ng-click="onSelectPerson(person)">{{person.PersonName}}</div>
             </div>
 
-
-            <div class="col-md-6">
+            <div class="col-md-6 col-xs-6">
 				<div class="row">
 				   <label class="col-md-4">Name</label>
 					<div class="col-md-6">{{selectedPerson.PersonName}}</div>
 				</div>
 				<div class="row">
-					 <label class="col-md-6">Client ID</label>
+                    <label class="col-md-6">Client ID</label>
 					<div class="col-md-6">{{selectedPerson.ClientID}}</div>
 				</div>
 				<div class="row">
-					<label class="col-md-6">NHS Number</label>
+                    <label class="col-md-6">NHS Number</label>
 					<div class="col-md-6">{{selectedPerson.NHSNumber}}</div>
 				</div>
 				<div class="row">
-					<label class="col-md-6">Phone</label>
+                    <label class="col-md-6">Phone</label>
 					<div class="col-md-6">{{selectedPerson.Phone}}</div>
 				</div>
 				<div class="row">
-					<label class="col-md-6">Mobile</label>
+                    <label class="col-md-6">Mobile</label>
 					<div class="col-md-6">{{selectedPerson.Mobile}}</div>
 				</div>
 				<div class="row">
-					<label class="col-md-6">Next of Kin</label>
+                    <label class="col-md-6">Next of Kin</label>
 					<div class="col-md-6">{{selectedPerson.NokName}}</div>
 				</div>
+                <div id="SelectPatientButton"
+                     class="btn btn-primary col-md-6"
+                     ng-click="onChoosePatient()"
+                     ng-show="selectedPerson">
+                    Select Client</div>
             </div>
 
-
-            <div id="SelectPatientButton" 
-                 class="btn btn-primary col-md-3 col-md-offset-9" 
-                 ng-click="onChoosePatient()"
-                 ng-enabled="selectedPerson"
-                 >Select Client</div>
+            <div>
+                <div class="alert alert-primary">Completed Sessions</div>
+                <ul>
+                    <li ng-repeat="session in sessions">Id:{{session.assignmentId}} Patient:{{session.personName}} Response:{{session.response}} Health:{{session.healthValue}} Saved:{{session.saved}}</li>
+                </ul>
+            </div>
 
         </div>
 		<div ng-show="state==='chooseassignment'">
-            <div class="alert alert-info">Choose the Video you want to watch</div>
-			<a href='#' class='btn btn-primary'  
+            <div class="alert alert-info">{{currentSession.personName}}: Choose the Video you want to watch</div>
+			<div class='btn btn-primary'  
                ng-click="onChooseAssignment(assignment)" 
-               ng-repeat="assignment in selectedPerson.Assignments">{{assignment.AssignmentType.AssignmentTypeName}}</a>
-            <a href="#" class="btn btn-primary"
-               ng-click="onChooseMedia(media)"
-               ng-repeat="media in selectedAssignment.AssignmentType.Medias">{{media.MediaName}}</a>
+               ng-repeat="assignment in selectedPerson.Assignments">{{assignment.AssignmentType.AssignmentTypeName}}
+		   	</div>
+		   	<div class='btn btn-info' ng-click="status='capturelogin'">back</div>
+
+            
+
 		</div>
         <div ng-show="state==='watchvideo'">
             <div class="alert alert-info">Your Video</div>
@@ -153,12 +157,15 @@
             </div>
 
             <div class="col-md-12">
-                <div class="Scale100Control">
-                    0...100
+                <div id="HealthSlider">
+                    <span class="glyphicon glyphicon-thumbs-down" style="float:left; opacity:.2; font-size:72px;"></span>
+                    <span class="glyphicon glyphicon-thumbs-up" style="float:right; opacity:.2; font-size:72px;"></span>
                 </div>
+                <div id="HealthValue" class="glyphicon" ng-style="{left:healthIndicator+30,top:27}">{{healthValue}}</div>
+                <div id="HealthIndicator" class="glyphicon glyphicon-heart-empty" ng-style="{left:healthIndicator}"></div>
                 <div id="PanelHealthButtons" class="container">
                     <btn id="BackToSignatureButton" class="btn btn-primary" >Go Back</btn>
-                    <btn id="HealthCompleteButton" class="btn btn-primary" ng-click="state='capturethanks'">Done</btn>
+                    <btn id="HealthCompleteButton" class="btn btn-primary" ng-click="onHealthCompleted()">Done</btn>
                 </div>
 
             </div>
@@ -184,8 +191,6 @@
 
             <script type="text/javascript" src="js/phonegap.shim.js"></script>
             <script type="text/javascript" src="js/signature_pad.js"></script>
-            <script type="text/javascript" src="js/Constants.js"></script>
-
             <script type="text/javascript" src="js/index.js"></script>
             <script type="text/javascript">
 
