@@ -10,8 +10,7 @@ Using git onsite at NHS:
 
 Use only on DPT001647
 
-start CNTLM, a proxy server. Shut down service after use.
->>>>>>> ffe53560fefc34eda91204101a7a2995e0349bee
+nick github creds stored in git on this server git config c:\users\ajderiann\.gitconfig
 
 http://mobileangularui.com/blog/your-first-phonegap-app-with-mobile-angular-ui/
 
